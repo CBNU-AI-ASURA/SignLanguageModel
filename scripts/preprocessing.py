@@ -20,7 +20,6 @@ top_dir = os.getcwd()  # 현재 작업 디렉토리
 morpheme_dir = os.path.join(top_dir, 'morpheme')
 video_dir = os.path.join(top_dir, 'video')
 csv_dir = os.path.join(top_dir, 'csv')
-
 # CSV 디렉토리 생성
 if not os.path.exists(csv_dir):
     os.makedirs(csv_dir)
