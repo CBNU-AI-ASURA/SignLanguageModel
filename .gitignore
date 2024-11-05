@@ -2,5 +2,6 @@ data/
 morpheme/
 models/
 /src/__pycache__/
-
+*.h5
+*.keras
 .vscode/
