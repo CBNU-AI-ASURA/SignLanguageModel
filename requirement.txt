@@ -1,3 +1,12 @@
-tensorflow
+tensorflow = 2.17
+
+# these are for vedio leading
 opencv-python
 mediapipe
+
+# these are for statistic
+python == 3.12
+pandas
+scikit-learn
+imbalanced-learn
+seaborn
