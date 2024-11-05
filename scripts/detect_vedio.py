@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 import csv
 import os
+import time
 
 # MediaPipe 모듈 초기화
 mp_pose = mp.solutions.pose
@@ -26,11 +27,20 @@ if not os.path.exists(csv_output_directory):
 if not os.path.exists(video_output_directory):
     os.makedirs(video_output_directory)
 
+# 총 비디오 파일수 계산
+video_files = [f for f in os.listdir(videos_dir) if f.endswith('.mp4') or f.endswith('.avi')]
+total_videos = len(video_files)
+completed_videos = 0
+start_time_all = time.time()  # 전체 작업 시작 시간 기록
+
 # 디렉토리 내 모든 비디오 파일 처리
 for filename in os.listdir(videos_dir):
     if filename.endswith('.mp4') or filename.endswith('.avi'):
         video_path = os.path.join(videos_dir, filename)
         cap = cv2.VideoCapture(video_path)
+
+        # 각 비디오 작업 시작 시간 기록
+        start_time_video = time.time()
 
         # 출력 비디오 파일 경로 생성
         output_video_path = os.path.join(video_output_directory, f'output_{filename}')
@@ -91,10 +101,23 @@ for filename in os.listdir(videos_dir):
 
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
+        
+        # 각 비디오 작업 완료 후 시간 측정
+        elapsed_time_video = time.time() - start_time_video
+        completed_videos += 1
+        progress = (completed_videos / total_videos) * 100
+        avg_time_per_video = (time.time() - start_time_all) / completed_videos
+        remaining_time = avg_time_per_video * (total_videos - completed_videos)
+
+        print(f"\rProgress: {progress:.2f}% | {completed_videos}/{total_videos} | Average Time per Video: {avg_time_per_video:.2f}s | Estimated Remaining Time: {remaining_time:.2f}s",end='')
 
         # 자원 해제
         cap.release()
         out_video.release()
+
+# 완료 문자열 출력
+print("All video processing completed.")
+print(f"Total Time Taken: {time.time() - start_time_all:.2f}s")
 
 # 모든 창 닫기
 cv2.destroyAllWindows()
