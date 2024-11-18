@@ -43,10 +43,10 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # GRU 모델 생성
 model = Sequential()
 model.add(Masking(mask_value=0.0, input_shape=(None, 3)))  # 시퀀스 길이를 None으로 설정
-model.add(GRU(64, return_sequences=True))  # 첫 번째 GRU 레이어
+model.add(GRU(64, return_sequences=True,recurrent_activation='sigmoid'))  # 첫 번째 GRU 레이어
 model.add(BatchNormalization())
 model.add(Dropout(0.5))
-model.add(GRU(64, return_sequences=False))  # 두 번째 GRU 레이어
+model.add(GRU(64, return_sequences=False,recurrent_activation='sigmoid'))  # 두 번째 GRU 레이어
 model.add(BatchNormalization())
 model.add(Dropout(0.5))
 model.add(Dense(y.shape[1], activation='softmax'))  # 출력층, 분류를 위한 softmax 사용
@@ -65,7 +65,7 @@ callbacks = [
 ]
 
 # 데이터 배치 처리 시 가변 길이 지원
-def generator(X, y, batch_size=32):
+def generator(X, y, batch_size=16):
     while True:
         indices = np.random.permutation(len(X))
         for start in range(0, len(X), batch_size):
@@ -76,7 +76,7 @@ def generator(X, y, batch_size=32):
             yield X_batch, y_batch
 
 # 모델 학습
-batch_size = 32
+batch_size = 16
 steps_per_epoch = len(X_train) // batch_size
 history = model.fit(generator(X_train, y_train, batch_size=batch_size),
                     steps_per_epoch=steps_per_epoch,
