@@ -180,8 +180,8 @@ if __name__ == "__main__":
         print("사용 가능한 GPU가 없습니다. CPU를 사용합니다.")
     
     # 데이터 폴더 경로 (실제 경로로 수정하세요)
-    # data_folder = 'data/labeled_keypoints/'
-    data_folder = 'data/before/'    
+    data_folder = 'data/labeled_keypoints/'
+    
     # 시퀀스 생성 파라미터
     SEQUENCE_LENGTH = 30  # 시퀀스 당 프레임 수 (데이터에 맞게 조정)
     
