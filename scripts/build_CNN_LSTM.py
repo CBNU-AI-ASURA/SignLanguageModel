@@ -16,7 +16,7 @@ from model_utils import build_model, train_model, evaluate_model, plot_training_
 
 
 # 데이터 경로 설정
-data_dir = 'data/labeled_keypoints/'
+data_dir = 'data/'
 model_dir = 'models/'
 
 # 학습 데이터 불러오기
@@ -36,7 +36,7 @@ history = train_model(model, X_train, y_train, X_val, y_val)
 
 # 모델 저장
 os.makedirs(model_dir, exist_ok=True)  # 디렉토리 생성
-model_path = os.path.join(model_dir, 'sign_language_CNN_LSTM_model.h5')
+model_path = os.path.join(model_dir, 'sign_language_CNN_LSTM_model.keras')
 model.save(model_path)
 
 # 라벨 인코더 저장 (필요 시)
